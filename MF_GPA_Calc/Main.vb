@@ -27,28 +27,48 @@ Public Class frmMain
 
     Private Sub btnCalc_Click(sender As Object, e As EventArgs) Handles btnCalc.Click
 
-        Dim decSelectedGPA As Decimal
-
-        'Checks which radio button is clicked:
+        'Checks which radio button is clicked, and
+        'gets number of male or female clicks:
         If rdoMale.Checked = True Then
             gpaCalc.Male = True
-        Else
+            gpaCalc.MaleClicks = gpaCalc.MaleClicks + 1
+        ElseIf rdoMale.Checked = False Then
             gpaCalc.Male = False
         End If
 
         If rdoFemale.Checked = True Then
             gpaCalc.Female = True
-        Else
+            gpaCalc.FemaleClicks = gpaCalc.FemaleClicks + 1
+        ElseIf rdoFemale.Checked = False Then
             gpaCalc.Female = False
         End If
 
         'Checks to see which GPA was selected, stores in variable:
-        Decimal.TryParse(decSelectedGPA, lstGPAs.Text)
-        gpaCalc.SelectedGPA = decSelectedGPA
+        Decimal.TryParse(lstGPAs.SelectedItem.ToString, gpaCalc.SelectedGPA)
 
-        lblMaleGPA.Text = gpaCalc.GetMaleGPA()
-        lblFemaleGPA.Text = gpaCalc.GetFemaleGPA()
-        lblCombinedGPA.Text = gpaCalc.GetCombinedGPA()
+        'Displays GPAs:
+        lblMaleGPA.Text = gpaCalc.GetMaleGPA().ToString("N1")
+        lblFemaleGPA.Text = gpaCalc.GetFemaleGPA().ToString("N1")
+        lblCombinedGPA.Text = gpaCalc.GetCombinedGPA().ToString("N1")
+
+        'Displays number of male, female, and total students in the class:
+        lblNumMales.Text = gpaCalc.MaleClicks.ToString
+        lblNumFemales.Text = gpaCalc.FemaleClicks.ToString
+        lblNumStudentsTotal.Text = gpaCalc.GetNumOfTotalStudents.ToString()
+
+    End Sub
+
+    Private Sub btnClear_Click(sender As Object, e As EventArgs) Handles btnClear.Click
+
+        'Clears the GPACalculator object, text and labels:
+        lblMaleGPA.Text = String.Empty
+        lblFemaleGPA.Text = String.Empty
+        lblCombinedGPA.Text = String.Empty
+        lblNumMales.Text = String.Empty
+        lblNumFemales.Text = String.Empty
+        lblNumStudentsTotal.Text = String.Empty
+
+        gpaCalc.Clear()
 
     End Sub
 End Class
